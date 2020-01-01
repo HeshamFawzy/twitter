@@ -20,3 +20,11 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('/utwittes', 'TwittesController@index')->name('twittes.index');
+
+Route::get('/create', 'TwittesController@create')->name('twittes.create');
+
+Route::post('/store', 'TwittesController@store')->name('twittes.store');
+
+Route::get('/show/{id}', 'TwittesController@show')->name('twittes.show');
+
+Route::get('/destroy/{id}', 'TwittesController@destroy')->name('twittes.destroy');

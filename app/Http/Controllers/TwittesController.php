@@ -28,6 +28,7 @@ class TwittesController extends Controller
     public function create()
     {
         //
+        return view('twittes.create');
     }
 
     /**
@@ -39,6 +40,15 @@ class TwittesController extends Controller
     public function store(Request $request)
     {
         //
+        $id = \Auth::user()->id;
+
+        $twitte = new Twitte;
+        $twitte->body = $request->input('body');
+        $twitte->user_id = $id;
+
+        $twitte->save();
+
+        return redirect('/utwittes');
     }
 
     /**
@@ -50,6 +60,8 @@ class TwittesController extends Controller
     public function show($id)
     {
         //
+        $twitte = Twitte::find($id);
+        return view('twittes.show')->with('twitte', $twitte);
     }
 
     /**
@@ -84,5 +96,9 @@ class TwittesController extends Controller
     public function destroy($id)
     {
         //
+        $twitte = Twitte::find($id);
+        $twitte->delete();
+
+        return redirect('/utwittes');
     }
 }
