@@ -28,3 +28,7 @@ Route::post('/store', 'TwittesController@store')->name('twittes.store');
 Route::get('/show/{id}', 'TwittesController@show')->name('twittes.show');
 
 Route::get('/destroy/{id}', 'TwittesController@destroy')->name('twittes.destroy');
+
+Route::get('/followers', 'FollowersController@index')->name('followers.index');
+
+Route::get('/search', 'FollowersController@search')->name('followers.search');
