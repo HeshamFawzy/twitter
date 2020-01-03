@@ -26,8 +26,8 @@
             <div class="card-body">
                 <blockquote class="blockquote">
                     <p>
-                        @if($profile ?? '')
-                            <img src="{{url('uploads/'.$profile->filename)}}" class="rounded-circle" height="100">
+                        @if($twitte ?? '')
+                            <img src="{{url('uploads/'.$twitte->filename)}}" class="rounded-circle" height="100">
                         @endif
                         </p>
                     <p class="float-left">{{$twitte->body}}</p>

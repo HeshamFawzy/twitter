@@ -35,9 +35,10 @@ class HomeController extends Controller
         ->toArray();
         
         $twittes = DB::table('twittes')
-        ->whereIn('user_id' , $followers_ids)
+        ->whereIn('twittes.user_id' , $followers_ids)
         ->join('users', 'users.id', '=', 'twittes.user_id')
-        ->select('name', 'email', 'body' , 'twittes.created_at')
+        ->join('profiles', 'profiles.user_id' , '=' , 'twittes.user_id')
+        ->select('name', 'email', 'body' , 'twittes.created_at', 'profiles.filename')
         ->get();
 
         $user = auth()->user();
