@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Follower;
 use DB;
 
 
@@ -18,7 +19,7 @@ class FollowersController extends Controller
     {
         //
         $id = \Auth::user()->id;
-        $users = User::orderBy('email', 'asc')->get();
+        $users = User::where('id', '!=', auth()->id())->get();
         return view('followers.index')->with('users', $users);
     }
 
@@ -91,8 +92,24 @@ class FollowersController extends Controller
     public function search(Request $request)
     {
         $search = $request->get('search');
-        $users = DB::table('users')->orderBy('email', 'asc')->where('email', 'like', '%' . $search . '%')->paginate(5);
+        $users = DB::table('users')->orderBy('email', 'asc')->where([['email', 'like', '%' . $search . '%'], ['id', '!=', auth()->id()]])->paginate(5);
         return view('followers.index')->with('users', $users);
+    }
+
+    public function follow(Request $request)
+    {
+        //
+        $user_id = \Auth::user()->id;
+        $follower = new Follower;
+        $follower->person_id = $user_id;
+        $follower->follower_id = $request->message;
+
+        $follower->save();
+        $response = array(
+          'status' => 'success',
+          'msg' => $request->message,
+        );
+        return response()->json($response);
     }
 }
 

@@ -17,10 +17,11 @@
 		<div class="col-12">
 		@if(count($users) > 0)
 			@foreach($users as $user)
-				<div class="col-8 m-auto card">
-				  <div class="card-body">
+				<div class="col-8 m-auto card" id="{{$user->id}}">
+				  <div class="card-body"> 
 				    <blockquote class="blockquote">
 				    	<p class="text-center">{{$user->email}}</p>
+    					<button class="postbutton btn btn-primary float-right" value="{{$user->id}}">Follow</button> 
 				    </blockquote>
 				  </div>
 				</div>
@@ -29,4 +30,23 @@
 		@endif
 		</div>
 	</div>
+	<script>
+        $(document).ready(function(){
+            var CSRF_TOKEN = $('meta[name="csrf-token"]').attr('content');
+            $("button").click(function(){
+                $.ajax({
+                    /* the route pointing to the post function */
+                    url: '/follow',
+                    type: 'POST',
+                    /* send the csrf-token and the input to the controller */
+                    data: {_token: CSRF_TOKEN, message:$(this).val()},
+                    dataType: 'JSON',
+                    /* remind that 'data' is the response of the AjaxController */
+                    success: function (data) { 
+                        $("#"+data.msg+"").hide();
+                    }
+                }); 
+            });
+       });    
+    </script>
 @endsection

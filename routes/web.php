@@ -32,3 +32,7 @@ Route::get('/destroy/{id}', 'TwittesController@destroy')->name('twittes.destroy'
 Route::get('/followers', 'FollowersController@index')->name('followers.index');
 
 Route::get('/search', 'FollowersController@search')->name('followers.search');
+
+Route::post('/follow', 'FollowersController@follow')->name('followers.follow');
+
+Route::get('ajax', function(){ return view('ajax'); });
