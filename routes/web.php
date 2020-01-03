@@ -36,3 +36,7 @@ Route::get('/search', 'FollowersController@search')->name('followers.search');
 Route::post('/follow', 'FollowersController@follow')->name('followers.follow');
 
 Route::get('ajax', function(){ return view('ajax'); });
+
+Route::get('/createprofile', 'ProfilesController@create')->name('profile.create');
+
+Route::post('/storeprofile', 'ProfilesController@store')->name('profile.store');

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Follower;
 use DB;
+use App\Profile;
 
 class HomeController extends Controller
 {
@@ -39,6 +40,14 @@ class HomeController extends Controller
         ->select('name', 'email', 'body' , 'twittes.created_at')
         ->get();
 
-        return view('home')->with('twittes', $twittes);
+        $user = auth()->user();
+        $id = $user->id;
+        $profiles = Profile::where('user_id', $id)->get();
+        if (count($profiles) > 0){
+            $profile = Profile::where('user_id', $id)->latest('created_at')->first();
+        } else {
+            return view('home', ['user'=> $user])->with('twittes', $twittes);
+        }
+        return view('home', ['user'=> $user, 'profile' => $profile])->with('twittes', $twittes);
     }
 }
