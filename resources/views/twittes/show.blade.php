@@ -14,8 +14,17 @@
 		<p class="float-left">{{$twitte->body}}</p>
 	</div>
 	<div class="card-body">
-		<blockquote class="blockquote mb-0">
-		</blockquote>
+		@foreach($comments as $comment)
+			<div>
+			    <div class="card-body alert-success">
+			        <blockquote class="blockquote">
+			            <p class="float-left">{{$comment->body}}</p>
+			        </blockquote>
+			        <p class="float-right">{{$comment->name}}</p>
+			    </div>
+			    <br>
+			</div>
+		@endforeach
 	</div>
 </div>
 @endsection

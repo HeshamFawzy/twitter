@@ -22,7 +22,7 @@
     <h1 class="text-center">Twittes</h1>
     @if(count($twittes) > 0)
         @foreach($twittes as $twitte)
-        <div class="col-8 m-auto card">
+        <div class="col-8 m-auto card pb-4">
             <div class="card-body">
                 <blockquote class="blockquote">
                     <p>
@@ -35,8 +35,22 @@
                 <p class="float-right">Created_at : <span>{{$twitte->created_at}}</span></p>
                 <p class="float-left">{{$twitte->name}}</p>
             </div>
-        </div>
-                <br>
+            <hr>
+            <div class="text-center">
+                <form method="post" action="{{url('/storecomment')}}" enctype="multipart/form-data">
+                    @csrf
+                    <input type="hidden" name="user_id" value="{{$twitte->user_id}}">
+                    <input type="hidden" name="twitte_id" value="{{$twitte->id}}">
+                    <input type="text" name="body" class="col-12 form-control d-inline" placeholder="Send a Replay" required="">
+                    <hr>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fa fa-paper-plane"></i> Send
+                    </button>
+                </form>
+            </div>
+            <br>
+            </div>
+        <br>
         @endforeach
     @endif
 @endsection

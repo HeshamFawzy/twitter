@@ -38,7 +38,8 @@ class HomeController extends Controller
         ->whereIn('twittes.user_id' , $followers_ids)
         ->join('users', 'users.id', '=', 'twittes.user_id')
         ->join('profiles', 'profiles.user_id' , '=' , 'twittes.user_id')
-        ->select('name', 'email', 'body' , 'twittes.created_at', 'profiles.filename')
+        ->select('name', 'email', 'body' , 'twittes.created_at','twittes.id', 'twittes.user_id', 'profiles.filename')
+        ->orderBy('twittes.created_at', 'desc')
         ->get();
 
         $user = auth()->user();

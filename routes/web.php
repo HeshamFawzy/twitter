@@ -40,3 +40,5 @@ Route::get('ajax', function(){ return view('ajax'); });
 Route::get('/createprofile', 'ProfilesController@create')->name('profile.create');
 
 Route::post('/storeprofile', 'ProfilesController@store')->name('profile.store');
+
+Route::post('/storecomment', 'CommentsController@store')->name('comment.store');

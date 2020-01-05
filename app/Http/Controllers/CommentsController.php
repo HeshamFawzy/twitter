@@ -3,10 +3,9 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Twitte;
-use DB;
+use App\Comment;
 
-class TwittesController extends Controller
+class CommentsController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,9 +15,6 @@ class TwittesController extends Controller
     public function index()
     {
         //
-        $id = \Auth::user()->id;
-        $twittes = Twitte::orderBy('created_at', 'desc')->get()->where('user_id' , $id);
-        return view('twittes.index')->with('twittes', $twittes);
     }
 
     /**
@@ -29,7 +25,6 @@ class TwittesController extends Controller
     public function create()
     {
         //
-        return view('twittes.create');
     }
 
     /**
@@ -41,15 +36,19 @@ class TwittesController extends Controller
     public function store(Request $request)
     {
         //
-        $id = \Auth::user()->id;
+        request()->validate([
+            'body' => 'required',
+        ]);
+       
+        $Comment = new Comment();
+        $Comment->person_id = auth()->user()->id;
+        $Comment->follower_id = $request->input('user_id');
+        $Comment->body = $request->input('body');
+        $Comment->twitte_id = $request->input('twitte_id');
+        $Comment->save();
 
-        $twitte = new Twitte;
-        $twitte->body = $request->input('body');
-        $twitte->user_id = $id;
-
-        $twitte->save();
-
-        return redirect('/utwittes');
+        return redirect()->route('home');
+        
     }
 
     /**
@@ -61,15 +60,6 @@ class TwittesController extends Controller
     public function show($id)
     {
         //
-        $twitte = Twitte::find($id);
-
-        $comments = DB::table('comments')
-        ->where('follower_id' , '=' , \Auth::user()->id)
-        ->where('twitte_id' , '=' , $twitte->id)
-        ->join('users', 'users.id' , '=' , 'comments.person_id')
-        ->get();
-
-        return view('twittes.show')->with('twitte', $twitte)->with('comments', $comments);
     }
 
     /**
@@ -104,9 +94,5 @@ class TwittesController extends Controller
     public function destroy($id)
     {
         //
-        $twitte = Twitte::find($id);
-        $twitte->delete();
-
-        return redirect('/utwittes');
     }
 }
